@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [BlogController::class, 'index'])->name('home');
-Route::get('about', [BlogController::class, 'about'])->name('about');
-Route::get('blog', [BlogController::class, 'blog'])->name('blog');
-Route::get('contact', [BlogController::class, 'contact'])->name('contact');
+Route::view('/', 'welcome')->name('home');
+Route::view('about','about')->name('about');
+Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('blog/{show}', [BlogController::class, 'show'])->name('blog.show');
+Route::view('contact', 'contact')->name('contact');
 // Route::get('/', [BlogController::class, 'index'])->name('home');
