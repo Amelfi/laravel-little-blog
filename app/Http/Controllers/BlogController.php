@@ -12,19 +12,57 @@ class BlogController extends Controller
 
         // $blogs = DB::table('blogs')->get();
         $blogs = Blog::All();
-
-        return view('blogs', ['blogs' => $blogs] );
+        return view('blog.index', ['blogs' => $blogs] );
     }
 
     public  function create(){
 
-        return view('');
+        return view('blog.create');
     }
-    public  function show($id){
-        $blog = Blog::find($id);
-        return view('blog', ['blog' => $blog]);
+
+    public  function show(Blog $blog){
+
+        return view('blog.show', ['blog' => $blog]);
     }
-    public  function contact(){
-        return view('contact');
+
+    public  function store(Request $request){
+
+        $validated = $request->validate(
+            [
+                'title' => ['required'],
+                'description' => ['required'],
+            ]
+            );
+
+        Blog::create($validated);
+
+        return to_route('blogs.index')->with('status', 'Post Updated Successfully');
     }
+
+    public function edit(Blog $blog){
+
+        
+        return view('blog.edit', ['blog' => $blog]);
+    }
+    
+    public function update(Request $request, Blog $blog){
+
+        $validated = $request->validate(
+            [
+                'title' => ['required'],
+                'description' => ['required'],
+            ]
+            );
+
+        $blog->update($validated);
+
+
+
+        return to_route('blogs.index')->with('status', 'Post Updated Successfully');
+    }
+
+    public function delete(Blog $blog){
+        Blog::delete($blog);
+    }
+
 }

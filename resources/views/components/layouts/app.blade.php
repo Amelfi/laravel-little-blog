@@ -9,6 +9,9 @@
 </head>
 <body>
     <x-layouts.navigation/>
+    @if (session('status'))
+        <div>{{ session('status') }}</div>
+    @endif
     {{$slot}}
 </body>
 </html>
