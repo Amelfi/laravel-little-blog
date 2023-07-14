@@ -62,7 +62,11 @@ class BlogController extends Controller
     }
 
     public function delete(Blog $blog){
-        Blog::delete($blog);
+
+        $blog->delete();
+        return to_route('blogs.index')->with('status', 'Post deleted Successfully');
+        
+
     }
 
 }

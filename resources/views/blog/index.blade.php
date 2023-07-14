@@ -16,7 +16,13 @@ meta-descriptgsn="Blog meta-description"
                 <a href="{{route('blogs.show', $blog)}}"><p>{{ $blog->title }}</p></a>
             </h2>&nbsp;
             <a href="{{route('blogs.edit', $blog)}}">Edit</a>&nbsp;
-            <a href="{{route('blogs.delete', $blog)}}">Delete</a>
+
+            <form action="{{route('blogs.delete', $blog)}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input type="submit" value="delete">
+            </form>
+
         </div>
     @endforeach
 
