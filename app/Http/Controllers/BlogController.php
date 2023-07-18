@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\SavePostRequest;
 use App\Models\Blog;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,7 @@ class BlogController extends Controller
 
     public  function create(){
 
-        return view('blog.create');
+        return view('blog.create', ['blog' => new Blog()]);
     }
 
     public  function show(Blog $blog){
@@ -25,17 +26,10 @@ class BlogController extends Controller
         return view('blog.show', ['blog' => $blog]);
     }
 
-    public  function store(Request $request){
+    public  function store(SavePostRequest $request){
 
-        $validated = $request->validate(
-            [
-                'title' => ['required'],
-                'description' => ['required'],
-            ]
-            );
-
-        Blog::create($validated);
-
+        
+        Blog::create($request->validated());
         return to_route('blogs.index')->with('status', 'Post Updated Successfully');
     }
 
@@ -45,19 +39,9 @@ class BlogController extends Controller
         return view('blog.edit', ['blog' => $blog]);
     }
     
-    public function update(Request $request, Blog $blog){
+    public function update(SavePostRequest $request, Blog $blog){
 
-        $validated = $request->validate(
-            [
-                'title' => ['required'],
-                'description' => ['required'],
-            ]
-            );
-
-        $blog->update($validated);
-
-
-
+        $blog->update($request->validated());
         return to_route('blogs.index')->with('status', 'Post Updated Successfully');
     }
 
